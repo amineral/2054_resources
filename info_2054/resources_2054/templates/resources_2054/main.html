@@ -1,0 +1,7 @@
+{% extends "resources_2054/base.html" %}
+
+{% block content %}
+    <h1> ШО №{{ school.number }}</h1>
+    <p><a href="{% url 'dp_comps' dp=school.number %}">Компьютеры</a></p>
+    <p><a href="">Интерактивные доски</a></p>
+{% endblock %}
