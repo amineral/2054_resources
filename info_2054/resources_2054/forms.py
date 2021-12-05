@@ -1,6 +1,10 @@
 from django import forms
 
-class CheckBoxFilter(forms.Form):
-    pc = forms.BooleanField(required=False)
-    laptop = forms.BooleanField(required=False)
-    
+class ComputerFilter(forms.Form):
+    CHOICES = [
+        ('PC', 'PC'),
+        ('Laptop', 'Laptop'),
+    ]
+    type = forms.ChoiceField(choices=CHOICES, required=False)
+    owner = forms.CharField(max_length=100, required=False)
+

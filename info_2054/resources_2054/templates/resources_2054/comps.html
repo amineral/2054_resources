@@ -6,16 +6,12 @@
 
 {% block content %}
 <h1> Computers </h1>
-    <form method="get">
-        {{ filter.form.as_p }}
-        <input type="submit" />
-    </form>
-    {% for obj in filter.qs %}
-        {{ obj }}<br/>
-    {% endfor %}
-    <form action="{% url 'filter' %}" method="GET">
+    <form action="{% url 'dp_comps' dp=dp %}" method="GET">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <input type="submit" value="Submit">
     </form>
+    {% for comp in filtered %}
+        {{ comp }}</br>
+    {% endfor %}
 {% endblock %}
