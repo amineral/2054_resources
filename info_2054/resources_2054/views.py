@@ -18,7 +18,10 @@ def comps(request, dp):
         if form.is_valid():
             comp_type = request.GET["type"]
             owner = request.GET["owner"]
-            filtered = Computer.objects.filter(comp_type=comp_type, owner=None)
+            if comp_type == "all":
+                filtered = Computer.objects.all()
+            else:
+                filtered = Computer.objects.filter(owner__contains=owner, comp_type__contains=comp_type)
     else:
         form = ComputerFilter()
     context = {
