@@ -1,8 +1,11 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 from .models import Computer, InteractiveBoard, Department
 from .forms import ComputerFilter
+from .serializers import ComputerSerializer
+
 
 def index(request):
     return render(request, 'resources_2054/index.html')
@@ -35,4 +38,9 @@ def boards(request):
     all_boards = InteractiveBoard.objects.all()
     context = {"boards" : all_boards}
     return render(request, 'resources_2054/boards.html', context)
+
+def comp_list(request):
+    comps = Computer.objects.all()
+    serializer = ComputerSerializer(comps, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
