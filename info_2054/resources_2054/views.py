@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from .models import Computer, InteractiveBoard, Department
 from .forms import ComputerFilter
-from .serializers import ComputerSerializer
+from .serializers import ComputerSerializer, InteractiveBoardSerializer
 
 
 def index(request):
@@ -48,7 +48,7 @@ def comp_list(request):
         comps = Computer.objects.all()
         serializer = ComputerSerializer(comps, many=True)
         return Response(serializer.data)
-        
+
     elif request.method == "POST":
         serializer = ComputerSerializer(data=request.data)
         if serializer.is_valid():
@@ -63,5 +63,30 @@ def comp_details(request, pk):
     if request.method == "GET":
         comp = Computer.objects.get(pk=pk)
         serializer = ComputerSerializer(comp)
+        return Response(serializer.data)
+    return HttpResponse("POST method temporarily unavailable")
+
+
+@api_view(['GET', 'POST'])
+def board_list(request):
+    if request.method == "GET":
+        boards = InteractiveBoard.objects.all()
+        serializer = InteractiveBoardSerializer(boards, many=True)
+        return Response(serializer.data)
+        
+    elif request.method == "POST":
+        serializer = InteractiveBoardSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    return HttpResponse("POST method temporarily unavailable")
+    
+
+@api_view(['GET', 'POST'])
+def board_details(request, pk):
+    if request.method == "GET":
+        board = InteractiveBoard.objects.get(pk=pk)
+        serializer = InteractiveBoardSerializer(board)
         return Response(serializer.data)
     return HttpResponse("POST method temporarily unavailable")

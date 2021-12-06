@@ -9,5 +9,5 @@ class ComputerSerializer(serializers.ModelSerializer):
 class InteractiveBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = InteractiveBoard
-        fields = '__all__'
+        fields = ['brand', 'room', 'status', 'dp']
 
