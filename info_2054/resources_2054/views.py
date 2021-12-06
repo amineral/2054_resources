@@ -1,4 +1,7 @@
 from django.http.response import JsonResponse
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
@@ -39,8 +42,26 @@ def boards(request):
     context = {"boards" : all_boards}
     return render(request, 'resources_2054/boards.html', context)
 
+@api_view(['GET', 'POST'])
 def comp_list(request):
-    comps = Computer.objects.all()
-    serializer = ComputerSerializer(comps, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    if request.method == "GET":
+        comps = Computer.objects.all()
+        serializer = ComputerSerializer(comps, many=True)
+        return Response(serializer.data)
+        
+    elif request.method == "POST":
+        serializer = ComputerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    return HttpResponse("POST method temporarily unavailable")
+    
+
+@api_view(['GET', 'POST'])
+def comp_details(request, pk):
+    if request.method == "GET":
+        comp = Computer.objects.get(pk=pk)
+        serializer = ComputerSerializer(comp)
+        return Response(serializer.data)
+    return HttpResponse("POST method temporarily unavailable")
