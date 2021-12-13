@@ -1,9 +1,9 @@
 {% extends "resources_2054/base.html" %}
 
 {% block content %}
-    <h1>2054</h1>
     <p><a href="main/1/">ШО №1</a></p>
     <p><a href="main/2/">ШО №2</a></p>
     <p><a href="main/3/">ШО №3</a></p>
     <p><a href="main/4/">ШО №4</a></p>
+    <p><a href="{% url 'api_list' %}">Наш api</a></p>
 {% endblock %}

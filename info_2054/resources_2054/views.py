@@ -37,13 +37,27 @@ def comps(request, dp):
     }
     return render(request, 'resources_2054/comps.html', context)
 
+def comp_details(request, pk):
+    comp = Computer.objects.get(pk=pk)
+    context = {
+        "comp" : comp,
+    }
+    return render(request, 'resources_2054/comp_details.html', context)
+
 def boards(request):
     all_boards = InteractiveBoard.objects.all()
     context = {"boards" : all_boards}
     return render(request, 'resources_2054/boards.html', context)
 
+def main_api(request):
+    api_list = {
+        "/api/comps" : "computers list",
+        "/api/comps/<int:id>" : "computer details",
+    }
+    return JsonResponse(api_list)
+
 @api_view(['GET', 'POST'])
-def comp_list(request):
+def comp_list_api(request):
     if request.method == "GET":
         comps = Computer.objects.all()
         serializer = ComputerSerializer(comps, many=True)
@@ -57,9 +71,10 @@ def comp_list(request):
 
     return HttpResponse("POST method temporarily unavailable")
     
+# ---------- API VIEWES -------------------------------------------- 
 
-@api_view(['GET', 'POST'])
-def comp_details(request, pk):
+@api_view(['GET', 'POST'])  # change to GET PUT DELETE
+def comp_details_api(request, pk):
     if request.method == "GET":
         comp = Computer.objects.get(pk=pk)
         serializer = ComputerSerializer(comp)
@@ -68,7 +83,7 @@ def comp_details(request, pk):
 
 
 @api_view(['GET', 'POST'])
-def board_list(request):
+def board_list_api(request):
     if request.method == "GET":
         boards = InteractiveBoard.objects.all()
         serializer = InteractiveBoardSerializer(boards, many=True)
@@ -83,8 +98,8 @@ def board_list(request):
     return HttpResponse("POST method temporarily unavailable")
     
 
-@api_view(['GET', 'POST'])
-def board_details(request, pk):
+@api_view(['GET', 'POST']) # change to GET PUT DELETE
+def board_details_api(request, pk):
     if request.method == "GET":
         board = InteractiveBoard.objects.get(pk=pk)
         serializer = InteractiveBoardSerializer(board)

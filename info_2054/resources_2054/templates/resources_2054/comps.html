@@ -12,6 +12,6 @@
         <input type="submit" value="Submit">
     </form>
     {% for comp in filtered %}
-        {{ comp }}</br>
+        <a href="{% url 'dp_comp_details' pk=comp.id %}">{{ comp }}</a></br>
     {% endfor %}
 {% endblock %}

@@ -1,0 +1,14 @@
+{% extends "resources_2054/base.html" %}
+
+{% block title %}
+    <title>Подробно: {{ comp }}</title>
+{% endblock %}
+
+{% block content %}
+    <b>Тип:</b> {{ comp.comp_type }}<br>
+    <b>Бренд:</b> {{ comp.brand }}<br>
+    <b>Серийный номер:</b> {{ comp.serial_number }}<br>
+    <b>Владелец:</b> {{ comp.owner }}<br>
+    <b>Статус:</b> {{ comp.status }}<br>
+    <b>Школьное отделение:</b> ШК №{{ comp.dp.number }}<br>
+{% endblock %}
