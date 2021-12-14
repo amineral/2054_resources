@@ -1,4 +1,4 @@
-from django.http.response import JsonResponse
+from django.http.response import HttpResponsePermanentRedirect, JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -49,6 +49,9 @@ def boards(request):
     context = {"boards" : all_boards}
     return render(request, 'resources_2054/boards.html', context)
 
+
+# ---------- API VIEWES -------------------------------------------- 
+
 def main_api(request):
     api_list = {
         "/api/comps" : "computers list",
@@ -71,7 +74,6 @@ def comp_list_api(request):
 
     return HttpResponse("POST method temporarily unavailable")
     
-# ---------- API VIEWES -------------------------------------------- 
 
 @api_view(['GET', 'POST'])  # change to GET PUT DELETE
 def comp_details_api(request, pk):
