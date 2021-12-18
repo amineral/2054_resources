@@ -6,23 +6,27 @@
 
 {% block content %}
 <body>
-    <div class="container">
-        <div class="row align-items-start">
-            <div class="col">
-                <h1> Computers </h1>
-                    <form action="{% url 'dp_comps' dp=dp %}" method="GET">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <p><button type="submit" class="btn btn-primary btn-sm">Поиск</button></p>
-                    </form>
-                    {% for comp in filtered %}
-                        <a href="{% url 'dp_comp_details' pk=comp.id %}">{{ comp }}</a></br>
-                    {% endfor %}
-            </div>
-            <div class="col">
-                <h1>Hello1</h1>
-            </div>
-        </div>
-    </div>
+    <h1> Компьютеры </h1>
+        <form action="{% url 'dp_comps' dp=dp %}" method="GET" class="form-group">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="select_type">Выбирите тип устройства:</label>
+                    <select name="type"  class="form-control" id="select_type">
+                        <option value="all">Все</option>
+                        <option value="PC">Моноблок/Компьютер</option>
+                        <option value="Laptop">Ноутбук</option>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for='owner_input'>Владелец:</label>
+                    <input name="owner" class="form-control" id="owner_input" aria-describedby="searchHelp" placeholder="Введите фамилию">
+                    <small id="searchHelp" class="form-text text-muted">Можно так же ввести номер кабинета, если устройство привязано к кабинету</small>
+                    <p><button type="submit" class="btn btn-primary btn-sm">Поиск</button></p>
+                </div>
+        </form>
+        {% for comp in filtered %}
+            <a href="{% url 'dp_comp_details' pk=comp.id %}">{{ comp }}</a></br>
+        {% endfor %}
 </body>
 {% endblock %}

@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 from .models import Computer, InteractiveBoard, Department
-from .forms import ComputerFilter
+from .forms import ComputerFilter, AddComputerFrom
 from .serializers import ComputerSerializer, InteractiveBoardSerializer
 
 
