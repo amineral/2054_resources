@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('auth/', views.auth_page, name="auth_page"),
     path('logout/', views.logout_page, name='logout_page'),
+    path('add_device/<int:device>', views.add_device, name="add_device"),
     path('main/<int:dp>/', views.main_page, name="main"),
     path('main/<int:dp>/comps/', views.comps, name='dp_comps'),
     path('main/<int:dp>/boards/', views.boards, name='dp_boards'),

@@ -1,4 +1,4 @@
-from django.http.response import JsonResponse
+from django.http.response import HttpResponsePermanentRedirect, JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Computer, InteractiveBoard, Department
-from .forms import ComputerFilter, AddComputerFrom, AuthForm
+from .forms import ComputerFilter, AddComputerForm, AuthForm
 from .serializers import ComputerSerializer, InteractiveBoardSerializer
 
 
@@ -88,6 +88,36 @@ def board_details(request, pk):
         "board" : board,
     }
     return render(request, 'resources_2054/board_details.html', context)
+
+@login_required
+def add_device(request, device):
+    if device == 1:
+        form = AddComputerForm(request.GET)
+        if form.is_valid():
+            comp_type = request.GET["comp_type"]
+            brand = request.GET["brand"]
+            serial_number = request.GET["serial_number"]
+            owner = request.GET["owner"]
+            dp = Department.objects.get(number=int(request.GET["dp"]))
+            new_comp = Computer(
+                comp_type=comp_type,
+                brand=brand,
+                serial_number=serial_number,
+                owner=owner,
+                status="OK",
+                dp=dp,
+            )
+            new_comp.save()
+            return redirect('index')
+        else:
+            form = AddComputerForm()
+    if device == 2:
+        return HttpResponse("in work")
+    context = {
+        "form" : form,
+        "device" : device,
+    }
+    return render(request, 'resources_2054/add_device.html', context)
 
 
 # ---------- API VIEWES -------------------------------------------- 
