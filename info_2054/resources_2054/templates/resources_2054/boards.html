@@ -1,12 +1,14 @@
 {% extends "resources_2054/base.html" %}
 
 {% block title %}
-    <title>Interactive Boards</title>
+    <title>Интерактивные доски</title>
 {% endblock %}
 
 {% block content %}
-<h1> Interactive Boards</h1>
-    {% for board in boards %}
-        {{ board }}<br>
-    {% endfor %}
+<body>
+    <h1> Интерактивные доски</h1>
+        {% for board in boards %}
+        <a href="{% url 'dp_board_details' pk=board.id %}">{{ board }}</a></br>
+        {% endfor %}
+</body>
 {% endblock %}

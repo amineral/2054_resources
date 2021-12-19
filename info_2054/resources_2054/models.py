@@ -32,4 +32,4 @@ class InteractiveBoard(models.Model):
     dp = models.ForeignKey('Department', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.brand} | Room: {self.room}"
+        return f"{self.brand} | Кабинет: {self.room}"

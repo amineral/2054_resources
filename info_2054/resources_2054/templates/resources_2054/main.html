@@ -3,5 +3,5 @@
 {% block content %}
     <h1> ШО №{{ school.number }}</h1>
     <p><a href="{% url 'dp_comps' dp=school.number %}">Компьютеры</a></p>
-    <p><a href="">Интерактивные доски</a> >>> Еще не работает</p>
+    <p><a href="{% url 'dp_boards' dp=school.number %}">Интерактивные доски</a></p>
 {% endblock %}

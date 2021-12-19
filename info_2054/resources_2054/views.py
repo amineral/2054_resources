@@ -76,10 +76,18 @@ def comp_details(request, pk):
     return render(request, 'resources_2054/comp_details.html', context)
 
 @login_required
-def boards(request):
+def boards(request, dp):
     all_boards = InteractiveBoard.objects.all()
     context = {"boards" : all_boards}
     return render(request, 'resources_2054/boards.html', context)
+
+@login_required
+def board_details(request, pk):
+    board = InteractiveBoard.objects.get(pk=pk)
+    context = {
+        "board" : board,
+    }
+    return render(request, 'resources_2054/board_details.html', context)
 
 
 # ---------- API VIEWES -------------------------------------------- 

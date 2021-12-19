@@ -1,0 +1,12 @@
+{% extends "resources_2054/base.html" %}
+
+{% block title %}
+    <title>Подробно: {{ board }}</title>
+{% endblock %}
+
+{% block content %}
+    <b>Бренд:</b> {{ board.brand }}<br>
+    <b>Кабинет:</b> {{ board.room }}<br>
+    <b>Статус:</b> {{ board.status }}<br>
+    <b>Школьное отделение:</b> ШК №{{ board.dp.number }}<br>
+{% endblock %}
