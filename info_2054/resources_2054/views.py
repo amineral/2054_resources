@@ -1,22 +1,52 @@
-from django.http.response import HttpResponsePermanentRedirect, JsonResponse
+from django.http.response import JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .models import Computer, InteractiveBoard, Department
-from .forms import ComputerFilter, AddComputerFrom
+from .forms import ComputerFilter, AddComputerFrom, AuthForm
 from .serializers import ComputerSerializer, InteractiveBoardSerializer
 
 
+def auth_page(request):
+    if request.user.is_authenticated == True:
+        return redirect('index')
+    if request.method == "POST":
+        form = AuthForm(request.POST)
+        username = request.POST["login"]
+        password = request.POST["password"]
+        if form.is_valid():
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('index')
+            else:
+                message = "Неправильный логин или пароль"
+                return render(request, 'resources_2054/auth.html', {"form" : AuthForm, "message" : message})
+        else:
+            return HttpResponse("form not valid")
+    else:
+        form = AuthForm()
+    return render(request, 'resources_2054/auth.html', {"form" : form, "message" : None})
+
+@login_required
+def logout_page(request):
+    logout(request)
+    return redirect('auth_page')
+
+@login_required
 def index(request):
     return render(request, 'resources_2054/index.html')
 
+@login_required
 def main_page(request, dp):
     school = Department.objects.get(number=dp)
     return render(request, 'resources_2054/main.html', {"school" : school})
 
+@login_required
 def comps(request, dp):
     filtered = None
     if request.method == "GET" and request.GET:
@@ -37,6 +67,7 @@ def comps(request, dp):
     }
     return render(request, 'resources_2054/comps.html', context)
 
+@login_required
 def comp_details(request, pk):
     comp = Computer.objects.get(pk=pk)
     context = {
@@ -44,6 +75,7 @@ def comp_details(request, pk):
     }
     return render(request, 'resources_2054/comp_details.html', context)
 
+@login_required
 def boards(request):
     all_boards = InteractiveBoard.objects.all()
     context = {"boards" : all_boards}

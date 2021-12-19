@@ -1,0 +1,14 @@
+{% extends "resources_2054/base.html" %}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    <form action="{% url 'auth_page' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><button type="submit" class="btn btn-primary btn-sm">Войти</button></p>
+    </form>
+{% endblock %}

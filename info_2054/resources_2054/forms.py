@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.fields import CharField
 
 class ComputerFilter(forms.Form):
     CHOICES = [
@@ -20,3 +21,8 @@ class AddComputerFrom(forms.Form):
     owner = forms.CharField(max_length=30, required=True)
     status = forms.CharField(max_length=10, required=True)
     #dp = forms.ForeignKey('Department', on_delete=models.CASCADE)
+
+class AuthForm(forms.Form):
+    login = forms.CharField(max_length=20)
+    password = CharField(widget=forms.PasswordInput())
+
