@@ -111,7 +111,19 @@ def add_device(request, device):
             messages.success(request, 'Устройство добавлено')
             return redirect('index')
     if device == 2:
-        return HttpResponse("in work")
+        if request.GET:
+            brand = request.GET["brand"]
+            room = request.GET["room"]
+            dp = Department.objects.get(number=int(request.GET["dp"]))
+            new_board = InteractiveBoard(
+                brand=brand,
+                room=room,
+                status="OK",
+                dp=dp,
+            )
+            new_board.save()
+            messages.success(request, 'Устройство добавлено')
+            return redirect('index')
     context = {
         "device" : device,
     }
@@ -124,6 +136,8 @@ def main_api(request):
     api_list = {
         "/api/comps" : "computers list",
         "/api/comps/<int:id>" : "computer details",
+        "/api/boards" : "boards list",
+        "/api/boards/<int:id>" : "board details",
     }
     return JsonResponse(api_list)
 
