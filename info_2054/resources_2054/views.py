@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Computer, InteractiveBoard, Department
 from .forms import ComputerFilter, AddComputerForm, AuthForm
 from .serializers import ComputerSerializer, InteractiveBoardSerializer
@@ -39,7 +40,7 @@ def logout_page(request):
 
 @login_required
 def index(request):
-    return render(request, 'resources_2054/index.html')
+    return render(request, 'resources_2054/index.html',)
 
 @login_required
 def main_page(request, dp):
@@ -92,8 +93,7 @@ def board_details(request, pk):
 @login_required
 def add_device(request, device):
     if device == 1:
-        form = AddComputerForm(request.GET)
-        if form.is_valid():
+        if request.GET:
             comp_type = request.GET["comp_type"]
             brand = request.GET["brand"]
             serial_number = request.GET["serial_number"]
@@ -108,13 +108,11 @@ def add_device(request, device):
                 dp=dp,
             )
             new_comp.save()
+            messages.success(request, 'Устройство добавлено')
             return redirect('index')
-        else:
-            form = AddComputerForm()
     if device == 2:
         return HttpResponse("in work")
     context = {
-        "form" : form,
         "device" : device,
     }
     return render(request, 'resources_2054/add_device.html', context)

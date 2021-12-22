@@ -1,6 +1,13 @@
 {% extends "resources_2054/base.html" %}
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <p><a href="main/1/">ШО №1</a></p>
     <p><a href="main/2/">ШО №2</a></p>
     <p><a href="main/3/">ШО №3</a></p>

@@ -3,7 +3,7 @@
 {% block content %}
     <h1> ШО №{{ school.number }}</h1>
     <p><a href="{% url 'dp_comps' dp=school.number %}">Компьютеры</a></p>
-    <p><a href="{% url 'add_device' device=1 %}">Добавить компьютер</a> >>> в работе</p>
+    <p><a href="{% url 'add_device' device=1 %}">Добавить компьютер</a></p>
     <p><a href="{% url 'dp_boards' dp=school.number %}">Интерактивные доски</a></p>
     <p><a href="{% url 'add_device' device=2 %}">Добавить интерактивную доску</a> >>> в работе</p>
 {% endblock %}
